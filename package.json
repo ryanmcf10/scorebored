@@ -6,9 +6,6 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "css-build": "node-sass --omit-source-map-url sass/styles.scss src/assets/css/styles.css",
-    "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
   },
   "dependencies": {
     "core-js": "^3.6.5",
