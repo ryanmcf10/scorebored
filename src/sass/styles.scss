@@ -1,22 +1,15 @@
 @charset "utf-8";
 
-$color-primary-0: #4D2D73;
-$color-primary-1: #9078AD;
-$color-primary-2: #6C4E90;
-$color-primary-3: #321456;
-$color-primary-4: #1D053A;
-
 $color-primary-0: #356044;
 $color-primary-1: #7AB58E;
 $color-primary-2: #4C9565;
 $color-primary-3: #145E2D;
 $color-primary-4: #033F17;
 
-// Update some of Bulma's component variables
 $body-background-color: $color-primary-3;
 $card-background-color: $color-primary-4;
+$table-background-color: rgba(255, 255, 255, 0);
 $card-color: white;
-$table-background-color: rgba(255, 255, 255, 0.05);
 $table-color: white;
 $table-head-cell-color: white;
 
