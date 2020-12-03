@@ -1,12 +1,9 @@
 <template>
     <div class="column is-one-quarter">
+    <a href="#">
     <div class="scoreboard card" :id="game.elements[0].attributes.id">
-      <div class="card-header">
-        {{ game.elements[0].attributes.start_time }}
-        {{ game.elements[0].attributes.status }}
-      </div>
       <div class="card-content">
-        <table class="table is-bordered">
+        <table class="table is-bordered is-fullwidth">
           <thead>
             <tr>
               <td></td>
@@ -51,7 +48,7 @@
 
       </div>
     </div>
-
+    </a>
     </div>
     </template>
 
