@@ -1,6 +1,6 @@
 
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <div class="columns is-multiline is-mobile">
       <score-board-card
         v-for="game in games"
