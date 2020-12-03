@@ -1,8 +1,14 @@
 <template>
     <div class="column is-one-quarter">
     <a href="#">
-    <div class="scoreboard card" :id="game.elements[0].attributes.id">
+    <div class="scoreboard card" :id="game.game_id">
       <div class="card-content">
+        <div class="info">
+          <p>First Pitch: {{ game.start_time }}</p>
+          <p>{{ game.status }}</p>
+
+        </div>
+
         <table class="table is-bordered is-fullwidth">
           <thead>
             <tr>
@@ -16,41 +22,50 @@
 
           <tr>
             <td class="team away-team">
-              {{ game.elements[1].attributes.name }}
+              {{ game.away.name }}
             </td>
             <td>
-              {{ game.elements[1].elements[0].attributes.R }}
+              {{ game.away.runs }}
             </td>
             <td>
-              {{ game.elements[1].elements[0].attributes.H }}
+              {{ game.away. hits }}
             </td>
             <td>
-              {{ game.elements[1].elements[0].attributes.E }}
+              {{ game.away. errors }}
             </td>
           </tr>
           <tr>
             <td class="team home-team">
-              {{ game.elements[2].attributes.name }}
+              {{ game.home.name }}
             </td>
             <td>
-              {{ game.elements[2].elements[0].attributes.R }}
+              {{ game.home.runs }}
             </td>
             <td>
-              {{ game.elements[2].elements[0].attributes.H }}
+              {{ game.home.hits }}
             </td>
             <td>
-              {{ game.elements[2].elements[0].attributes.E }}
+              {{ game.home.errors }}
             </td>
 
           </tr>
           </tbody>
         </table>
 
+        <div class="pitchers" v-if="game.winning_pitcher !== null && game.losing_pitcher !== null">
+          <div class="pitcher">
+            <p><strong>W: </strong>{{ game.winning_pitcher.name }} [ {{game.winning_pitcher.wins }}-{{ game.winning_pitcher.losses }} ]</p>
+          </div>
+          <div class="pitcher">
+            <p><strong>L: </strong>{{ game.losing_pitcher.name }} [ {{game.losing_pitcher.wins }}-{{ game.losing_pitcher.losses }} ]</p>
+          </div>
+        </div>
+
       </div>
     </div>
     </a>
     </div>
-    </template>
+  </template>
 
 <script>
 export default {
@@ -64,5 +79,21 @@ export default {
 <style scoped>
 .team {
   text-align: left;
+}
+
+.info, .pitchers {
+  font-size: .75em;
+}
+
+.info {
+  text-align: left;
+}
+
+.pitchers {
+  text-align: right;
+}
+
+table {
+  margin: .5em 0 !important;
 }
 </style>
