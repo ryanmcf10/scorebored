@@ -1,20 +1,48 @@
 
 <template>
   <div id="app">
-    <div class="columns is-multiline is-mobile">
+
+<v-date-picker
+      color="green"
+      v-model="date" 
+      @dayclick="fetchScoreBoard"
+    >
+      <template v-slot="{ togglePopover }">
+
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input" type="text" readonly :value="date">
+        </div>
+        <div class="control">
+          <button class="button is-primary" @click="togglePopover({ placement: 'auto-start' })" >
+            Change
+          </button>
+        </div>
+
+      </div>
+
+      </template>
+
+    </v-date-picker>
+
+    <div class="columns is-multiline is-mobile" v-if="games !== null">
       <score-board-card
         v-for="game in games"
         v-bind:game="game"
         v-bind:key="game.game_id"
       />
     </div>
+    <div v-else>
+      No games scheduled today...
+    </div>
+
   </div>
 </template>
 
 <script>
-import ScoreBoardCard from './components/ScoreBoardCard.vue'
 import convert from 'xml-js'
 import fetch from 'node-fetch'
+import ScoreBoardCard from './components/ScoreBoardCard.vue'
 
 export default {
   name: 'App',
@@ -23,17 +51,18 @@ export default {
   },
   data() {
     return {
+      date: new Date('2020-09-01'),
       games: []
     }
   },
   methods: {
-    fetchScoreBoard(date) {
+    fetchScoreBoard() {
       // fetch XML data for the given date from mlb.com
 
       // get date components as zero-padded strings
-      var month = (date.getUTCMonth() + 1);
-      var day = date.getUTCDate();
-      var year = date.getUTCFullYear();
+      var month = this.date.getUTCMonth() + 1;
+      var day = this.date.getUTCDate();
+      var year = this.date.getUTCFullYear();
 
       var url = `http://gd2.mlb.com/components/game/mlb/'year_${year}/month_${month}/day_${day}/scoreboard.xml`;
 
@@ -42,14 +71,24 @@ export default {
       ).then(
         // parse the XML into an array of (messy) JSON object
         str => {
-          return JSON.parse(convert.xml2json(str)).elements[0].elements.map(element => element.elements);
+          try {
+            // will throw an error if XML does not contain any game data
+            return JSON.parse(convert.xml2json(str)).elements[0].elements.map(element => element.elements);
+          } 
+          catch { 
+            return [];
+          }
         }
       ).then(
         this.setGames
       );
     },
     setGames(rawData) {
-      this.games = rawData.map(this.mapRawGameDataToScoreBoardObjects);
+      if (rawData.length > 0) {
+        this.games = rawData.map(this.mapRawGameDataToScoreBoardObjects);
+      } else {
+        this.games = null;
+      }
     },
     mapRawGameDataToScoreBoardObjects(rawGameData){
       console.log(rawGameData);
@@ -97,14 +136,15 @@ export default {
     }
   },
   mounted() {
-    this.fetchScoreBoard(new Date('2020-09-01'));
+    this.fetchScoreBoard();
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: monospace;;
+  font-family: monospace;
+  color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
