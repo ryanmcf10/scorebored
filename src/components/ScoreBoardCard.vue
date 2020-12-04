@@ -1,5 +1,5 @@
 <template>
-    <div class="column is-one-quarter">
+    <div class="column is-half-tablet is-one-quarter-desktop">
     <div class="scoreboard card" :id="game.game_id">
       <div class="card-content">
         <div class="info">
