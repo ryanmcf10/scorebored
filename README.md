@@ -1,24 +1,7 @@
 # scorebored
 
-## Project setup
-```
-yarn install
-```
+Vue app for viewing daily baseball scoreboards.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# TODO
+1. Have to wait to see how XML is formatted when a game is in action. Update to show live games.
+2. Add drilldown pages to view full box score for all games.
