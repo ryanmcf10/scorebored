@@ -58,6 +58,10 @@
           <div class="pitcher">
             <p><strong class="has-text-white">L: </strong>{{ game.losing_pitcher.name }} [ {{game.losing_pitcher.wins }}-{{ game.losing_pitcher.losses }} ]</p>
           </div>
+          <div class="pitcher" v-if="game.save_pitcher !== null">
+            <p><strong class="has-text-white">S: </strong>{{ game.save_pitcher.name }} [ {{game.save_pitcher.saves }} ]</p>
+          </div>
+
         </div>
 
       </div>

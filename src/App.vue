@@ -121,6 +121,16 @@ export default {
           wins: rawGameData[4].attributes.wins,
           losses: rawGameData[4].attributes.losses,
         };
+
+        if (rawGameData[5].elements[0].attributes.name != ". ") {
+          scoreBoard["save_pitcher"] = {
+            name: rawGameData[5].elements[0].attributes.name,
+            saves: rawGameData[5].attributes.saves
+          };
+        } else {
+          scoreBoard["save_pitcher"] = null;
+        }
+        
       } else {
         // game hasn't been played
         scoreBoard["winning_pitcher"] = null;
