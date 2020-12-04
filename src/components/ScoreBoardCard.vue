@@ -1,6 +1,5 @@
 <template>
     <div class="column is-one-quarter">
-    <a href="#">
     <div class="scoreboard card" :id="game.game_id">
       <div class="card-content">
         <div class="info">
@@ -54,16 +53,15 @@
 
         <div class="pitchers" v-if="game.winning_pitcher !== null && game.losing_pitcher !== null">
           <div class="pitcher">
-            <p><strong>W: </strong>{{ game.winning_pitcher.name }} [ {{game.winning_pitcher.wins }}-{{ game.winning_pitcher.losses }} ]</p>
+            <p><strong class="has-text-white">W: </strong>{{ game.winning_pitcher.name }} [ {{game.winning_pitcher.wins }}-{{ game.winning_pitcher.losses }} ]</p>
           </div>
           <div class="pitcher">
-            <p><strong>L: </strong>{{ game.losing_pitcher.name }} [ {{game.losing_pitcher.wins }}-{{ game.losing_pitcher.losses }} ]</p>
+            <p><strong class="has-text-white">L: </strong>{{ game.losing_pitcher.name }} [ {{game.losing_pitcher.wins }}-{{ game.losing_pitcher.losses }} ]</p>
           </div>
         </div>
 
       </div>
     </div>
-    </a>
     </div>
   </template>
 
