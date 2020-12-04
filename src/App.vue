@@ -1,34 +1,24 @@
-
 <template>
   <div id="app">
-
     <div class="columns is-centered">
-
       <div class="column is-full">
-
-    <v-date-picker
-      color="green"
-      v-model="date" 
-      @dayclick="fetchScoreBoard"
-    >
-      <template v-slot="{ togglePopover }">
-
-      <div class="field has-addons has-addons-centered">
-        <div class="control">
-          <input class="input" type="text" readonly :value="date">
-        </div>
-        <div class="control">
-          <button class="button is-primary" @click="togglePopover({ placement: 'bottom' })" >
-            Change
-          </button>
-        </div>
-
-      </div>
-
-      </template>
-
-    </v-date-picker>
-
+        <v-date-picker color="green" v-model="date" @dayclick="fetchScoreBoard">
+          <template v-slot="{ togglePopover }">
+            <div class="field has-addons has-addons-centered">
+              <div class="control">
+                <input class="input" type="text" readonly :value="date.toLocaleString().split(',')[0]" style="text-align: center;"/>
+              </div>
+              <div class="control">
+                <button
+                  class="button is-primary"
+                  @click="togglePopover({ placement: 'bottom' })"
+                >
+                  Change
+                </button>
+              </div>
+            </div>
+          </template>
+        </v-date-picker>
       </div>
     </div>
 
@@ -42,25 +32,24 @@
     <div v-else>
       No games scheduled today...
     </div>
-
   </div>
 </template>
 
 <script>
-import convert from 'xml-js'
-import fetch from 'node-fetch'
-import ScoreBoardCard from './components/ScoreBoardCard.vue'
+import convert from "xml-js";
+import fetch from "node-fetch";
+import ScoreBoardCard from "./components/ScoreBoardCard.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    ScoreBoardCard
+    ScoreBoardCard,
   },
   data() {
     return {
       date: new Date(),
-      games: []
-    }
+      games: [],
+    };
   },
   methods: {
     fetchScoreBoard() {
@@ -73,22 +62,22 @@ export default {
 
       var url = `http://gd2.mlb.com/components/game/mlb/'year_${year}/month_${month}/day_${day}/scoreboard.xml`;
 
-      fetch(url).then(
-        response => response.text()
-      ).then(
-        // parse the XML into an array of (messy) JSON object
-        str => {
-          try {
-            // will throw an error if XML does not contain any game data
-            return JSON.parse(convert.xml2json(str)).elements[0].elements.map(element => element.elements);
-          } 
-          catch { 
-            return [];
+      fetch(url)
+        .then((response) => response.text())
+        .then(
+          // parse the XML into an array of (messy) JSON object
+          (str) => {
+            try {
+              // will throw an error if XML does not contain any game data
+              return JSON.parse(convert.xml2json(str)).elements[0].elements.map(
+                (element) => element.elements
+              );
+            } catch {
+              return [];
+            }
           }
-        }
-      ).then(
-        this.setGames
-      );
+        )
+        .then(this.setGames);
     },
     setGames(rawData) {
       if (rawData.length > 0) {
@@ -97,55 +86,55 @@ export default {
         this.games = null;
       }
     },
-    mapRawGameDataToScoreBoardObjects(rawGameData){
+    mapRawGameDataToScoreBoardObjects(rawGameData) {
       console.log(rawGameData);
 
       var scoreBoard = {
-        'game_id': rawGameData[0].attributes.id,
-        'status': rawGameData[0].attributes.status,
-        'start_time': rawGameData[0].attributes.start_time,
-        'away': {
-          'name': rawGameData[1].attributes.name,
-          'runs': rawGameData[1].elements[0].attributes.R,
-          'hits': rawGameData[1].elements[0].attributes.H,
-          'errors': rawGameData[1].elements[0].attributes.E,
+        game_id: rawGameData[0].attributes.id,
+        status: rawGameData[0].attributes.status,
+        start_time: rawGameData[0].attributes.start_time,
+        home: {
+          name: rawGameData[1].attributes.name,
+          runs: rawGameData[1].elements[0].attributes.R,
+          hits: rawGameData[1].elements[0].attributes.H,
+          errors: rawGameData[1].elements[0].attributes.E,
         },
-        'home': {
-          'name': rawGameData[2].attributes.name,
-          'runs': rawGameData[2].elements[0].attributes.R,
-          'hits': rawGameData[2].elements[0].attributes.H,
-          'errors': rawGameData[2].elements[0].attributes.E,
-        }
+        away: {
+          name: rawGameData[2].attributes.name,
+          runs: rawGameData[2].elements[0].attributes.R,
+          hits: rawGameData[2].elements[0].attributes.H,
+          errors: rawGameData[2].elements[0].attributes.E,
+        },
       };
 
       console.log(`Game Data length: ${rawGameData.length}`);
       if (rawGameData.length == 6) {
         // game is over
-        scoreBoard['winning_pitcher'] = {
-          'name': rawGameData[3].elements[0].attributes.name,
-          'wins': rawGameData[3].attributes.wins,
-          'losses': rawGameData[3].attributes.losses,
+        scoreBoard["winning_pitcher"] = {
+          name: rawGameData[3].elements[0].attributes.name,
+          wins: rawGameData[3].attributes.wins,
+          losses: rawGameData[3].attributes.losses,
         };
 
-        scoreBoard['losing_pitcher'] = {
-          'name': rawGameData[4].elements[0].attributes.name,
-          'wins': rawGameData[4].attributes.wins,
-          'losses': rawGameData[4].attributes.losses,
+        scoreBoard["losing_pitcher"] = {
+          name: rawGameData[4].elements[0].attributes.name,
+          wins: rawGameData[4].attributes.wins,
+          losses: rawGameData[4].attributes.losses,
         };
       } else {
         // game hasn't been played
-        scoreBoard['winning_pitcher'] = null;
-        scoreBoard['losing_pitcher'] = null;
+        scoreBoard["winning_pitcher"] = null;
+        scoreBoard["losing_pitcher"] = null;
       }
-      
+
       //console.log(scoreBoard);
       return scoreBoard;
-    }
+    },
   },
   mounted() {
     this.fetchScoreBoard();
-  }
-}
+  },
+};
 </script>
 
 <style>
