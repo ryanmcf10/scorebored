@@ -1,7 +1,3 @@
-# scorebored
-
-Vue app for viewing daily baseball scoreboards.
-
 <img src="./images/screenshot.png">
 
 # TODO
