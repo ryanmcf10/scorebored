@@ -2,19 +2,23 @@
 <template>
   <div id="app">
 
-<v-date-picker
+    <div class="columns is-centered">
+
+      <div class="column is-full">
+
+    <v-date-picker
       color="green"
       v-model="date" 
       @dayclick="fetchScoreBoard"
     >
       <template v-slot="{ togglePopover }">
 
-      <div class="field has-addons">
+      <div class="field has-addons has-addons-centered">
         <div class="control">
           <input class="input" type="text" readonly :value="date">
         </div>
         <div class="control">
-          <button class="button is-primary" @click="togglePopover({ placement: 'auto-start' })" >
+          <button class="button is-primary" @click="togglePopover({ placement: 'bottom' })" >
             Change
           </button>
         </div>
@@ -24,6 +28,9 @@
       </template>
 
     </v-date-picker>
+
+      </div>
+    </div>
 
     <div class="columns is-multiline is-mobile" v-if="games !== null">
       <score-board-card
@@ -51,7 +58,7 @@ export default {
   },
   data() {
     return {
-      date: new Date('2020-09-01'),
+      date: new Date(),
       games: []
     }
   },
@@ -148,6 +155,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 60px;
 }
 </style>
