@@ -60,7 +60,7 @@ export default {
       var day = this.date.getUTCDate();
       var year = this.date.getUTCFullYear();
 
-      var url = `http://gd2.mlb.com/components/game/mlb/'year_${year}/month_${month}/day_${day}/scoreboard.xml`;
+      var url = `https://gd2.mlb.com/components/game/mlb/'year_${year}/month_${month}/day_${day}/scoreboard.xml`;
 
       fetch(url)
         .then((response) => response.text())
